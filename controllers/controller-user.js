@@ -44,8 +44,7 @@ module.exports = {
 
     confrim_status : (req, res)=>{
         let userId = req.params.idUser
-        res.send(userId)
-
+        res.send('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
         // User.findById(userId)
         //     .then( user =>{
         //         user.confrim_status = true
