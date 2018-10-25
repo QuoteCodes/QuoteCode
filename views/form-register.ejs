@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('./partials/head.ejs') %>
+  <body>
+        <%- include('./partials/navbar.ejs') %> 
+        <!-- signup -->
+        <div class="modal fade" id="signup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header" style="padding:35px 50px;">
+                    <h4><span class="glyphicon glyphicon-lock"></span>Sign Up</h4>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body" style="padding:40px 50px;">
+                  <form role="form" action="/users/sign-up" method="POST">
+                    <div class="form-group">
+                      <label for="usrname"><span class="glyphicon glyphicon-user"></span> First Name</label>
+                      <input type="text" class="form-control" name="first_name" id="username" placeholder="First Name ">
+                    </div>
+                    <div class="form-group">
+                      <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Last Name</label>
+                      <input type="text" class="form-control" id="last_name" name ="last_name" placeholder="Last Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Gender</label>
+                        <input type="text" class="form-control" id="gender" name = "gender" placeholder="Gender">
+                    </div>
+                    <div class="form-group">
+                        <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Email</label>
+                        <input type="text" name = "email" class="form-control" id="email" placeholder="Email">
+                      </div>
+                      <div class="form-group">
+                          <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Password</label>
+                          <input type="password" name = "password" class="form-control" id="password" placeholder="Password">
+                      </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" value="" checked>Remember me</label>
+                    </div>
+                      <input type="submit" class="btn btn-success btn-block" value="Sign Up"><span class="glyphicon glyphicon-off"></span> 
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                  <small >Not a member? <a href="#login">Login</a></small><br>
+                  
+                </div>
+              </div>
+              
+            </div>
+        </div> 
+  </body>
+
+</html>
+
