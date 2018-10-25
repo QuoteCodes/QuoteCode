@@ -1,6 +1,7 @@
 const {User, User_Qoute} = require('../models/index')
 const sgMail = require('@sendgrid/mail')
 const Helper = require('../helper/helper')
+const keyemail = require('../config/key')
 
 module.exports = {
     toSignUp : (req, res)=>{
@@ -23,7 +24,7 @@ module.exports = {
             .then( newUser => {
                
                 //send email
-              sgMail.setApiKey('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')
+              sgMail.setApiKey(keyemail)
                 const msg = {
                     to: email,
                     from: 'ekomasukkpak@gmail.com',
