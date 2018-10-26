@@ -1,14 +1,12 @@
 const router = require('express').Router()
 const RouteUser = require('./route-user')
+const Quote = require('./quote.routes')
+const {index} = require('../controllers/quote.controller')
 
-router.get('/', (req , res) => {
-    let message = req.session.message 
-    req.session.message = null
-    res.render("index",{message})
-    //res.send(message)
-})
+router.get('/', index)
 
 
 router.use('/users', RouteUser)
+router.use('/quotes', Quote)
 
 module.exports = router

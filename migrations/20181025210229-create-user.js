@@ -24,10 +24,10 @@ module.exports = {
         type: Sequelize.STRING
       },
       status: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.STRING
       },
-      message: {
-        type: Sequelize.TEXT
+      status: {
+        type: Sequelize.STRING
       },
       role: {
         type: Sequelize.STRING

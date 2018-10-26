@@ -8,9 +8,12 @@ app.use(session({ secret : 'keyboard cat', resave: false, saveUninitialized:fals
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 
+app.use((req,res,next)=>{
+    res.locals.user = req.session.user
+    // res.locals.user = 'adaloh'
+    next()
+})
 
-
-//app routes
 const route = require('./routes/index')
 app.use(route)
 

@@ -1,1 +1,17 @@
-masuk sini
+<%- include('partials/navbar-user.ejs') %>
+
+<% if(user) {%>
+    <div class="container mt-3 mb-3">
+        <div class="row">
+            <div class="col-sm-12">
+                <form action="/quotes" method="POST">
+                    <textarea class="form-control mb-3" name="description" placeholder="Quote now...."></textarea>
+                    <button class="btn btn-outline-primary btn-xs right">Add Quote</button>
+                </form>
+            </div>
+                
+        </div>
+    </div>
+<%}%>
+
+<%- include('quote.ejs') %>

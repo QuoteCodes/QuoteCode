@@ -1,29 +1,66 @@
 'use strict';
+const Sequelize = require("sequelize")
+const Op = Sequelize.Op
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
-    first_name: DataTypes.STRING,
-    last_name: DataTypes.STRING,
-    gender: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    status:{ 
-      type : DataTypes.BOOLEAN,
-      defaultValue : true
-    },
-    message: DataTypes.TEXT,
-    role:{ 
+    first_name: {
       type : DataTypes.STRING,
-      defaultValue : 'member'
+      validate : {
+        notEmpty :{
+          msg : "First Name Harus Diisi!"
+        },
+        is :{
+          args : ["^[a-z]+$",'i'],
+          msg : "Hanya bisa di isi huruf saja"
+        }
+      }
     },
-    confrim_status : {
-      type : DataTypes.BOOLEAN,
-      defaultValue : false
+    last_name: {
+      type : DataTypes.STRING,
+      validate : {
+        notEmpty :{
+          msg : "last Name Harus Diisi!"
+        },
+        is :{
+          args : ["^[a-z]+$",'i'],
+          msg : "Hanya bisa di isi huruf saja"
+        }
+      }
+    },
+    gender: DataTypes.STRING,
+    email: {
+      type : DataTypes.STRING,
+      validate : {
+        isEmail: {
+          msg : "format email tidak sesuai"
+        }
+        // isUnique : (email,cb)=>{
+        //   User.findOne({
+        //     where : { email : email, [Op.ne] : this.dataValues.id  }
+        //   })
+        //     .then ( email =>{
+        //       if(email){
+        //         cb('Email sudah pernah didaftarkan')
+        //       } else{
+        //         cb()
+        //       }
+        //     })
+        // }
+      }
+    },
+    password: DataTypes.STRING,
+    status: DataTypes.STRING,
+    status: DataTypes.STRING,
+    role: DataTypes.STRING
+  }, {hooks :{
+    beforeValidate : (user)=>{
+      user.status = true
+      user.role = 'member'
     }
-
-  }, {});
+  }});
   User.associate = function(models) {
     // associations can be defined here
-    User.belongsToMany(models.Qoute, { through : 'User_Qoutes'})
+    User.belongsToMany(models.Quote, {through: 'UserQuote'})
   };
   return User;
 };

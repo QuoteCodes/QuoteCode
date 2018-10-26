@@ -1,15 +1,9 @@
-const {User, User_Qoute} = require('../models/index')
+const model = require('../models/index')
 const sgMail = require('@sendgrid/mail')
 const Helper = require('../helper/helper')
 const keyemail = require('../config/key')
 
 module.exports = {
-    toSignUp : (req, res)=>{
-        let error = req.session.error
-        req.session.error = null
-        res.render("form-register", {error})
-        // res.send("Open form daftar dengan error null")
-    },
     postSingUp : (req,res)=>{
         let first_name = req.body.first_name
         let last_name = req.body.last_name
@@ -18,19 +12,18 @@ module.exports = {
         let salt = Helper.genSalt()
         let password = Helper.hashing(req.body.password,salt)
 
-        let newUserObj = {first_name, last_name, gender, email, password, salt}
-
-        User.create(newUserObj)
+        let newUserObj = {first_name, last_name, gender, email, password}
+        
+        model.User.create(newUserObj,{individualHooks:true})
             .then( newUser => {
-               
-                //send email
+             //send email
               sgMail.setApiKey(keyemail)
                 const msg = {
                     to: email,
                     from: 'ekomasukkpak@gmail.com',
                     subject: 'One Step Active Your Email',
                     text: 'Thanks to Join ',
-                    html: `<p>Hello, ${first_name}, your actived link <a href='http://localhost:3000/users/confirm-register/${newUser.id}'> Actived Link </a>' </p>`,
+                    html: `<p>Hello, ${first_name}, your actived link <a href='http://localhost:3000/users/confirm-register/'> Actived Link </a>' </p>`
                 }
               sgMail.send(msg)
               
@@ -38,6 +31,7 @@ module.exports = {
               res.redirect('/')
             })
             .catch( err =>{
+                res.send(err.message)
                 res.status(400).send("Error while create new user")
             })
     },
@@ -59,35 +53,36 @@ module.exports = {
         //     })
     },
 
-    toLogin : (req, res) => {
-        let error = req.session.error
-        req.session.error = null
-        //res.render("login-form", {error})
-        res.send('open form login with error null')
-
+    logOut: (req, res) => {
+        req.session.user = null
+        res.redirect('/')
     },
 
-    postLogin : (req, res)=>{
 
+    postLogin : (req, res)=>{
         let password = req.body.password
         let email = req.body.email
-        User.findOne({ where : {
+        model.User.findOne({ where : {
             email : email
         }})
             .then( user =>{
+                
                 if(user){
-                    let passwordChecked = Helper.compare(password,user.password)
+                    let passwordChecked = Helper.compare(password, user.password)
                     if(passwordChecked){
-                        req.session.user = user
-                    }else{
-                        req.session.error = 'Password Salah!'
-                        res.send('Password anda salah!')
-                        //res.redirect('/log-in')  
+                        req.session.user = {
+                            id : user.id,
+                            first_name : user.first_name,
+                            last_name : user.last_name,
+                            email : user.email,
+                            role : user.role
+                        }
+                        res.redirect('/')
                     }
                 }else{
                     req.session.error = 'Email tidak terdaftar!'
                     res.send('Email anda tidak terdaftar!')
-                        //res.redirect('/log-in')  
+                    res.redirect('/') 
                 }
                
             }) 
@@ -99,7 +94,7 @@ module.exports = {
     like : (req, res)=>{
         let qouteId = req.params.iqQoute
         let userId = req.session.user.id
-        User_Qoute.findOrCreate(
+        model.UserQoute.findOrCreate(
             {
                 where : {
                     QouteId : qouteId,
@@ -130,7 +125,7 @@ module.exports = {
     unlike : (req, res)=>{
         let qouteId = req.params.iqQoute
         let userId = req.session.user.id
-        User_Qoute.findOrCreate(
+        model.UserQoute.findOrCreate(
             {
                 where : {
                     QouteId : qouteId,
@@ -160,7 +155,19 @@ module.exports = {
 
     toProfile : (req, res)=>{
         let user = req.session.user
-        res.render('profil form', {user})
+        // console.log(user)
+        res.render('profile', {user})
+    },
+
+    query : (req, res)=>{
+        model.User.findAll({
+            include : [{
+                model : model.Quote
+            }]
+        })
+        .then(data=>{
+            res.send(data)
+        })
     }
 
 }

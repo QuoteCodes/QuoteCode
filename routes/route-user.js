@@ -1,15 +1,17 @@
 const route = require('express').Router()
-const {toSignUp,postSingUp,confrim_status,toLogin,postLogin,like,unlike,toProfile} = require('../controllers/controller-user')
+const {query, postSingUp,confrim_status,postLogin,like,unlike,toProfile,
+    logOut
+} = require('../controllers/controller-user')
 
-route.get('/sign-up',toSignUp)
+const Helper = require('../helper/helper')
+
 route.post('/sign-up', postSingUp)
-
+route.get('/logout', logOut)
+route.get('/query',query)
 route.get('/confrim-register/:idUser',confrim_status)
-
-route.get('/log-in',toLogin)
 route.post('/log-in', postLogin)
 route.get('/like/:idQoute', like)
 route.get('/unlike/:idQoute', unlike)
-route.get('/profile',toProfile)
+route.get('/profile',Helper.cekLogin ,toProfile)
 
 module.exports = route

@@ -1,24 +1,15 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('User_Quotes', {
+    return queryInterface.createTable('Quotes', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      QuoteId: {
-        type: Sequelize.INTEGER
-      },
-      UserId: {
-        type: Sequelize.INTEGER
-      },
-      like: {
-        type: Sequelize.BOOLEAN
-      },
-      unlike: {
-        type: Sequelize.BOOLEAN
+      description: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -31,6 +22,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('User_Quotes');
+    return queryInterface.dropTable('Quotes');
   }
 };

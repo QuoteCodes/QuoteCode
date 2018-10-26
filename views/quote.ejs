@@ -1,0 +1,65 @@
+<div class="container">
+    <div class="row">
+        <!-- looping buka -->
+        <% data.forEach(all => {%>
+            <div class="col-sm-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                      <blockquote class="blockquote">
+                        <p><%= all.Quote.description%></p>
+                        <small><%= all.User.first_name %> <%= all.User.last_name  %></small>
+                      </blockquote>
+                      <% if(user) { %>
+                        <i class="far fa-thumbs-up"></i> 
+                      <% } %>
+                    </div>
+                  </div>
+            </div>
+        <% }) %>
+        <!-- looping tutup -->
+    </div>
+
+
+
+</div>
+
+
+<style>
+    blockquote {
+        border-left: none
+    }
+
+    .quote-badge {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    .quote-box {
+
+        overflow: hidden;
+        margin-top: -50px;
+        padding-top: -100px;
+        border-radius: 17px;
+        background-color: #4ADFCC;
+        margin-top: 25px;
+        color: white;
+        width: 325px;
+        box-shadow: 2px 2px 2px 2px #E0E0E0;
+
+    }
+
+    .quotation-mark {
+
+        margin-top: -10px;
+        font-weight: bold;
+        font-size: 100px;
+        color: white;
+        font-family: "Times New Roman", Georgia, Serif;
+
+    }
+
+    .quote-text {
+
+        font-size: 19px;
+        margin-top: -65px;
+    }
+</style>
